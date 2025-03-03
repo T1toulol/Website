@@ -3,13 +3,19 @@
     alert(Bienvenue sur ropartz.net !);
 };*/
 
-// Change le texte du paragraphe quand on clique sur le bouton
-document.addEventListener(DOMContentLoaded, function() {
-    const button = document.getElementById(changeTextBtn);
-    const message = document.getElementById(message);
 
-    button.addEventListener(click, function() {
-        message.textContent = "Texte modifié par du JavaScript frontend !";
-    });
-});
+console.log("Script chargé !");
 
+
+let score=0;
+const scoreElement = document.getElementById("score");
+const button = document.getElementById("lol");
+
+button.addEventListener("click", () => {
+    score++;
+    scoreElement.innerText = score;
+
+    if (score>100){
+        document.getElementById("message").style.display = "block";
+    }
+})
