@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="../public/stylesheets/style.css">
 </head>
 <body>
+    <div class="overlay"></div>
+    <div class="carteBVN">
+        <h2>BIENVENUE SUR GAUFRE !!!!!!!!!!!</h2>
+        <p>J'expliquerai les règles plus tard, si Titouan t'as pas expliqué ben demande à qqn d'autres ou comprend tout seul</p>
+        <button class="fermer">Fermer</button>
+    </div>
+    <div class="carteFinie">
+        <h2>Partie finie</h2>
+        <p>Rechargez la page pour relancer une partie, ou cliquez sur fermer pour observer la grille et la solution...</p>
+        <button class="fermer">Fermer</button>
+    </div>
     <div class="header">
         <img src="../public/images/shrek.jpeg" alt="echec" id="MainImage">
         <div id="titremenu">
@@ -21,10 +32,64 @@
         </div>
     </div>
     <div class="body">
-        <span>En attendant le développement du site web ropartz.net, voici un clicker nul qui ne vous occupera certainement pas.</span>
-        <button id="lol"><span>lol clique sur moi<span></button>
-        <span>Score : <span id="score">0 </span></span>
-        <h2 id="message">Arrête de cliquer ça sert à rien !!!</h2>
+        <div id="boiteScore">
+            <span id="texteScore"><span id="Score">15</span> Permutations restantes</span>
+        </div>
+        <div id="grille">
+            <div class="case green"><span class="lettre" data-used="false" data-info="A1">A</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="00">B</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="01">C</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="02">D</span></div>
+            <div class="case green"><span class="lettre" data-used="false" data-info="A2">E</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="03">F</span></div>
+            <div class="blank"></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="06">G</span></div>
+            <div class="blank"></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="14">H</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="04">I</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="09">J</span></div>
+            <div class="case green"><span class="lettre" data-used="false" data-info="A3">K</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="10">L</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="11">M</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="05">N</span></div>
+            <div class="blank"></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="07">O</span></div>
+            <div class="blank"></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="15">P</span></div>
+            <div class="case green"><span class="lettre" data-used="false" data-info="A4">Q</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="12">R</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="08">S</span></div>
+            <div class="case"><span class="lettre" data-used="false" data-info="13">T</span></div>
+            <div class="case green"><span class="lettre" data-used="false" data-info="A5">U</span></div>
+        </div>
+        <hr class="full-width-line">
+        <div id="grilleSol">
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="A1">A</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="00">B</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="01">C</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="02">D</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="A2">E</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="03">F</span></div>
+            <div class="blank"></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="06">G</span></div>
+            <div class="blank"></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="14">H</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="04">I</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="09">J</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="A3">K</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="10">L</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="11">M</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="05">N</span></div>
+            <div class="blank"></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="07">O</span></div>
+            <div class="blank"></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="15">P</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="A4">Q</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="12">R</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="08">S</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="13">T</span></div>
+            <div class="caseSol"><span class="lettre" data-used="false" data-info="A5">U</span></div>
+        </div>
     </div>
     <script defer src="../public/javascripts/main.js"></script>
 </body>
