@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     cases.forEach((c) => {
-        if (c.classList.contains("green")) {
+        if (c.classList.contains(".green")) {
             c.setAttribute("draggable", false);
         } else {
             c.setAttribute("draggable", true);
@@ -110,29 +110,31 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function StartDrag(e, c) {
         e.preventDefault(); // Bloque le comportement natif (ex: scroll)
-        draggedElement = c;
-    
-        // Bloquer le scroll de la page
-        document.body.style.overflow = "hidden";
-    
-        // Créer un clone
-        clone = draggedElement.cloneNode(true);
-        clone.classList.add("dragging-clone");
-        document.body.appendChild(clone);
-    
-        draggedElement.classList.add("empty");
-        draggedElement.querySelector('.lettre').classList.add('emptyLetter');
-    
-        // Position initiale du clone
-        moveClone(e);
-    
-        // Ajouter les écouteurs pour suivre le mouvement
-        if (e.type === "mousedown") {
-            document.addEventListener("mousemove", moveClone);
-            document.addEventListener("mouseup", dropClone);
-        } else {
-            document.addEventListener("touchmove", moveClone, { passive: false });
-            document.addEventListener("touchend", dropClone);
+        if (!c.classList.contains('green')){
+            draggedElement = c;
+        
+            
+            // Créer un clone
+            clone = draggedElement.cloneNode(true);
+            clone.classList.add("dragging-clone");
+            document.body.appendChild(clone);
+            
+            draggedElement.classList.add("empty");
+            draggedElement.querySelector('.lettre').classList.add('emptyLetter');
+            
+            // Position initiale du clone
+            moveClone(e);
+            
+            // Ajouter les écouteurs pour suivre le mouvement
+            if (e.type === "mousedown") {
+                document.addEventListener("mousemove", moveClone);
+                document.addEventListener("mouseup", dropClone);
+            } else {
+                // Bloquer le scroll de la page
+                document.body.style.overflow = "hidden";
+                document.addEventListener("touchmove", moveClone, { passive: false });
+                document.addEventListener("touchend", dropClone);
+            }
         }
     }
     
@@ -144,16 +146,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.type.startsWith("touch")) {
                 x = e.touches[0].clientX;
                 y = e.touches[0].clientY;
+                e.preventDefault(); // Bloque le scroll sur mobile
             } else {
-                x = e.pageX;
-                y = e.pageY;
+                x = e.clientX;
+                y = e.clientY;
             }
     
             clone.style.position = "fixed";
             clone.style.left = `${x}px`;
             clone.style.top = `${y}px`;
     
-            e.preventDefault(); // Bloque le scroll sur mobile
         }
     }
     
@@ -171,12 +173,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
     
             let target = document.elementFromPoint(x, y);
-    
+            console.log(target.classList);
+            if (target.classList.contains("lettre")) {
+                target = target.parentNode;
+            }
             if (target && (target.classList.contains("case") || target.classList.contains("lettre")) && target !== draggedElement && !target.classList.contains("green") && !target.classList.contains("blank")) {
-                if (target.classList.contains("lettre")) {
-                    target = target.parentNode;
-                }
-    
                 let lettreA = target.querySelector('.lettre').textContent;
                 target.querySelector('.lettre').textContent = draggedElement.querySelector('.lettre').textContent;
                 draggedElement.querySelector('.lettre').textContent = lettreA;
