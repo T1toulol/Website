@@ -1,3 +1,8 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
 .header {
     background-color:aliceblue;
     display: flex;
@@ -61,13 +66,13 @@ h1 {
 #boiteScore{
     display :flex;
     height: 80px;
-    width: 450px;
+    width: min(450px, 80vw);
     justify-content: center;
     align-items: center;
 }
 
 #texteScore{
-    font-size: 30px;
+    font-size: clamp(10px, 4vw, 30px); /* Ajuste la taille du texte */
     color: grey;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
@@ -78,9 +83,10 @@ h1 {
 }
 
 .case, .caseSol{
-    margin:8px;
-    width: 80px;
-    height: 80px;
+    width: auto;
+    aspect-ratio: 1/1;
+    /*width: 80px;
+    height: 80px;*/
     background-color: lightgray;
     border-radius: 15%;
     display: flex;
@@ -112,7 +118,7 @@ h1 {
 .green:active{cursor :default;}
 
 .yellow{
-    background-color: yellow !important;
+    background-color: rgb(245, 245, 100) !important;
     box-shadow: 4px 4px orange;
 }
 .blank{
@@ -122,8 +128,13 @@ h1 {
 }
 
 #grille, #grilleSol{
+    aspect-ratio: 1/1;
+    margin:auto;
     display: grid;
-    grid-template: repeat(5, 20%) / repeat(5, 20%);
+    gap : clamp(4px,1vw,8px);
+    grid-template-rows: repeat(5, minmax(30px, 1fr)); /* Les lignes s'ajustent dynamiquement */
+    grid-template-columns: repeat(5, minmax(30px, 1fr)); /* Idem pour les colonnes */
+    width: min(80vw, 500px); /* Max 500px mais s'adapte à l'écran */
 }
 
 #grilleSol{
@@ -131,7 +142,7 @@ h1 {
 }
 
 .lettre{
-    font-size: 50px;
+    font-size: clamp(20px, 6vw, 60px); /* Ajuste la taille du texte */
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -162,6 +173,9 @@ h1 {
     box-shadow: none;
 }
 
+.emptyLetter{
+    display: none;
+}
 
 body.dragging {
     cursor: none !important; /* Supprime l'icône de fichier lors du drag */
@@ -202,3 +216,10 @@ body.dragging {
     cursor: pointer;
     border-radius: 5px;
 }
+
+
+@media only screen and (max-width: 500px) {
+    #MainImage{
+        display: none;
+    }
+  }

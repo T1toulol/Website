@@ -93,59 +93,192 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(afficherCarteBVN, 500); 
     window.addEventListener("load", afficherCarteBVN);
 
-    cases.forEach(c => {
+
+    cases.forEach((c) => {
+        if (c.classList.contains("green")) {
+            c.setAttribute("draggable", false);
+        } else {
+            c.setAttribute("draggable", true);
+        }
+    
+        // Écouteurs pour PC (souris)
+        c.addEventListener("mousedown", (e) => StartDrag(e, c));
+    
+        // Écouteurs pour Mobile (tactile)
+        c.addEventListener("touchstart", (e) => StartDrag(e, c), { passive: false });
+    });
+    
+    function StartDrag(e, c) {
+        e.preventDefault(); // Bloque le comportement natif (ex: scroll)
+        draggedElement = c;
+    
+        // Bloquer le scroll de la page
+        document.body.style.overflow = "hidden";
+    
+        // Créer un clone
+        clone = draggedElement.cloneNode(true);
+        clone.classList.add("dragging-clone");
+        document.body.appendChild(clone);
+    
+        draggedElement.classList.add("empty");
+        draggedElement.querySelector('.lettre').classList.add('emptyLetter');
+    
+        // Position initiale du clone
+        moveClone(e);
+    
+        // Ajouter les écouteurs pour suivre le mouvement
+        if (e.type === "mousedown") {
+            document.addEventListener("mousemove", moveClone);
+            document.addEventListener("mouseup", dropClone);
+        } else {
+            document.addEventListener("touchmove", moveClone, { passive: false });
+            document.addEventListener("touchend", dropClone);
+        }
+    }
+    
+    function moveClone(e) {
+        if (clone) {
+            let x, y;
+    
+            // Vérifier si c'est un événement tactile ou souris
+            if (e.type.startsWith("touch")) {
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+            } else {
+                x = e.pageX;
+                y = e.pageY;
+            }
+    
+            clone.style.position = "fixed";
+            clone.style.left = `${x}px`;
+            clone.style.top = `${y}px`;
+    
+            e.preventDefault(); // Bloque le scroll sur mobile
+        }
+    }
+    
+    function dropClone(e) {
+        if (clone) {
+            let x, y;
+    
+            // Vérifier si c'est un événement tactile ou souris
+            if (e.type.startsWith("touch")) {
+                x = e.changedTouches[0].clientX;
+                y = e.changedTouches[0].clientY;
+            } else {
+                x = e.clientX;
+                y = e.clientY;
+            }
+    
+            let target = document.elementFromPoint(x, y);
+    
+            if (target && (target.classList.contains("case") || target.classList.contains("lettre")) && target !== draggedElement && !target.classList.contains("green") && !target.classList.contains("blank")) {
+                if (target.classList.contains("lettre")) {
+                    target = target.parentNode;
+                }
+    
+                let lettreA = target.querySelector('.lettre').textContent;
+                target.querySelector('.lettre').textContent = draggedElement.querySelector('.lettre').textContent;
+                draggedElement.querySelector('.lettre').textContent = lettreA;
+    
+                listeLettres[parseInt(draggedElement.querySelector('.lettre').getAttribute('data-info'))] = lettreA;
+                listeLettres[parseInt(target.querySelector('.lettre').getAttribute('data-info'))] = target.querySelector('.lettre').textContent;
+    
+                verify(listeLettres, listeSolution);
+    
+                let scoreElement = document.getElementById('Score');
+                scoreElement.textContent = parseInt(scoreElement.textContent) - 1;
+                if (scoreElement.textContent <= 0) {
+                    afficherCarteFinie();
+                    grilleSol.style.display = "grid";
+                    document.querySelector(".full-width-line").style.display = "block";
+                }
+    
+                if (greencpt === 21) {
+                    afficherCarteFinie();
+                    grilleSol.style.display = "grid";
+                    document.querySelector(".full-width-line").style.display = "block";
+                }
+            }
+    
+            draggedElement.querySelector('.lettre').classList.remove('emptyLetter');
+            draggedElement.classList.remove('empty');
+    
+            // Supprimer le clone
+            clone.remove();
+            clone = null;
+        }
+    
+        // Supprimer les écouteurs
+        document.removeEventListener("mousemove", moveClone);
+        document.removeEventListener("mouseup", dropClone);
+        document.removeEventListener("touchmove", moveClone);
+        document.removeEventListener("touchend", dropClone);
+    
+        // Réactiver le scroll après le drag
+        document.body.style.overflow = "";
+    }
+
+    /*cases.forEach((c) => {
         if(c.classList.contains("green")){
             c.setAttribute("draggable", false);
         }
         else{
             c.setAttribute("draggable", true);
-        } 
+        }
 
-        //DEV
-        /*c.addEventListener("click", (o) => {
-            console.log(QuellesLettres(parseInt(c.querySelector('.lettre').getAttribute('data-info'))));
-        });*/
+        c.addEventListener("mousedown", (event) => StartDrag(event,c));
 
-        // Début du drag
-        c.addEventListener("dragstart", (e) => {
-            draggedElement = e.target;
+    });
 
-            // Désactiver l'image fantôme par défaut
-            e.dataTransfer.setData("text/plain", "");
-            e.dataTransfer.effectAllowed = "move";
-            e.dataTransfer.setDragImage(new Image(), 0, 0); // Supprime la prévisualisation native
+    function StartDrag(e, c) {
+        e.preventDefault(); // Évite tout comportement natif du navigateur
+        draggedElement = c;
 
-            // Créer un clone
-            clone = draggedElement.cloneNode(true);
-            clone.classList.add("dragging-clone");
-            document.body.appendChild(clone);
+        // Créer un clone
+        clone = draggedElement.cloneNode(true);
+        clone.classList.add("dragging-clone");
+        document.body.appendChild(clone);
 
-            // Rendre la case d'origine blanche
-            setTimeout(() => draggedElement.classList.add("empty"), 50);
-        });
+        draggedElement.classList.add("empty");
+        draggedElement.querySelector('.lettre').classList.add('emptyLetter');
 
-        // Suivre la souris avec le clone
-        document.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            if (clone) {
-                clone.style.left = `${e.pageX}px`;
-                clone.style.top = `${e.pageY}px`;
-            }
-        });
-        
-        // Quand on lâche la case sur une autre
-        c.addEventListener("drop", (e) => {
-            e.preventDefault();
+        // Position initiale du clone
+        moveClone(e);
+
+        // Ajouter les écouteurs
+        document.addEventListener("mousemove", moveClone);
+        document.addEventListener("mouseup", dropClone);
+    }
+
+    function moveClone(e) {
+        if (clone) {
+            clone.style.position = "fixed";
+            //clone.style.pointerEvents = "none"; // Évite qu'il interfère avec les événements
+            clone.style.left = `${e.pageX/* - clone.offsetWidth / 2}px`;
+            clone.style.top = `${e.pageY /*- clone.offsetHeight / 2}px`;
+        }
+    }
+
+    function dropClone(e) {
+        if (clone) {
+            let target = document.elementFromPoint(e.clientX, e.clientY);
             
-            if (draggedElement && draggedElement !== c && !c.classList.contains("green")) {
-                // Échange des contenus sur le plateau
-                let lettreA = c.querySelector('.lettre').textContent;
-                c.querySelector('.lettre').textContent = draggedElement.querySelector('.lettre').textContent;
+            if (target && (target.classList.contains("case") || target.classList.contains("lettre")) && target !== draggedElement && !target.classList.contains("green") && !target.classList.contains("blank")) {
+                // Échanger les contenus
+                if (target.classList.contains("lettre")){
+                    target = target.parentNode;
+                }
+                
+                //Refaire apparaître le contenu de la case
+                
+                let lettreA = target.querySelector('.lettre').textContent;
+                target.querySelector('.lettre').textContent = draggedElement.querySelector('.lettre').textContent;
                 draggedElement.querySelector('.lettre').textContent = lettreA;
-
+                
                 //Echange des contenus dans la liste correspondante
                 listeLettres[parseInt(draggedElement.querySelector('.lettre').getAttribute('data-info'))] = lettreA;
-                listeLettres[parseInt(c.querySelector('.lettre').getAttribute('data-info'))] = c.querySelector('.lettre').textContent;
+                listeLettres[parseInt(target.querySelector('.lettre').getAttribute('data-info'))] = target.querySelector('.lettre').textContent;
                 
                 //On revérifie le plateau
                 verify(listeLettres,listeSolution);
@@ -157,27 +290,28 @@ document.addEventListener("DOMContentLoaded", () => {
                     grilleSol.style.display = "grid";
                     document.querySelector(".full-width-line").style.display = "block";
                 }
-
+                
                 if (greencpt===21){
                     afficherCarteFinie();
                     grilleSol.style.display = "grid";
                     document.querySelector(".full-width-line").style.display = "block";
                 }
             }
-        });
+            
+            console.log("true");
+            draggedElement.querySelector('.lettre').classList.remove('emptyLetter');
+            draggedElement.classList.remove('empty');
+            // Supprimer le clone
+            clone.remove();
+            clone = null;
+        }
         
-        // Fin du drag (qu'on drop ou non)
-        c.addEventListener("dragend", () => {
-            if (draggedElement) {
-                draggedElement.classList.remove("empty");
-                draggedElement = null;
-            }
-            if (clone) {
-                clone.remove(); // Supprimer le clone
-                clone = null;
-            }
-        });
-    });
+        //draggedElement = null;
+        
+        // Supprimer les écouteurs
+        document.removeEventListener("mousemove", moveClone);
+        document.removeEventListener("mouseup", dropClone);
+    }*/
 
     function afficherCarteFinie() {
         overlay.style.display = "block";
@@ -225,8 +359,8 @@ function CreerSolution(){
         .then(data => {
             while(!reussite){
                 listeMots = data.split(" ");
-                //Nb de mots : 8061
-                mot1 = listeMots[Math.floor(Math.random() * 8061)];
+                //Nb de mots : 8062
+                mot1 = listeMots[Math.floor(Math.random() * 8062)];
 
                 //On chope le 2e mot
                 newListe1 = listeMots.filter(word => word.startsWith(mot1[0]));
