@@ -32,65 +32,77 @@
         </div>
     </div>
     <div class="body">
-        <div id="boiteScore">
-            <span id="texteScore"><span id="Score">15</span> Permutations restantes</span>
+        <div class="defs" id="defs1">
+            <div class="def" id="def1"><span class="mot">AAAA</span> : <span class="definition">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel voluptatum ipsum eaque adipisci iusto, aliquid similique placeat ab laborum? Iure, doloribus cupiditate rerum minima dolorem nesciunt debitis recusandae vel provident.</span></div>
+            <div class="def" id="def2"><span class="mot">AAAA</span> : <span class="definition">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel voluptatum ipsum eaque adipisci iusto, aliquid similique placeat ab laborum? Iure, doloribus cupiditate rerum minima dolorem nesciunt debitis recusandae vel provident.</span></div>
+            <div class="def" id="def3"><span class="mot">AAAA</span> : <span class="definition">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel voluptatum ipsum eaque adipisci iusto, aliquid similique placeat ab laborum? Iure, doloribus cupiditate rerum minima dolorem nesciunt debitis recusandae vel provident.</span></div>
         </div>
-        <div id="grille">
-            <div class="case green"><span class="lettre" data-used="false" data-info="A1">A</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="00">B</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="01">C</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="02">D</span></div>
-            <div class="case green"><span class="lettre" data-used="false" data-info="A2">E</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="03">F</span></div>
-            <div class="blank"></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="06">G</span></div>
-            <div class="blank"></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="14">H</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="04">I</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="09">J</span></div>
-            <div class="case green"><span class="lettre" data-used="false" data-info="A3">K</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="10">L</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="11">M</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="05">N</span></div>
-            <div class="blank"></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="07">O</span></div>
-            <div class="blank"></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="15">P</span></div>
-            <div class="case green"><span class="lettre" data-used="false" data-info="A4">Q</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="12">R</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="08">S</span></div>
-            <div class="case"><span class="lettre" data-used="false" data-info="13">T</span></div>
-            <div class="case green"><span class="lettre" data-used="false" data-info="A5">U</span></div>
+        <div class="game">
+            <div id="boiteScore">
+                <span id="texteScore"><span id="Score">15</span> Permutations restantes</span>
+            </div>
+            <div id="grille">
+                <div class="case green"><span class="lettre" data-used="false" data-info="A1">A</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="00">B</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="01">C</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="02">D</span></div>
+                <div class="case green"><span class="lettre" data-used="false" data-info="A2">E</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="03">F</span></div>
+                <div class="blank"></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="06">G</span></div>
+                <div class="blank"></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="14">H</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="04">I</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="09">J</span></div>
+                <div class="case green"><span class="lettre" data-used="false" data-info="A3">K</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="10">L</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="11">M</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="05">N</span></div>
+                <div class="blank"></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="07">O</span></div>
+                <div class="blank"></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="15">P</span></div>
+                <div class="case green"><span class="lettre" data-used="false" data-info="A4">Q</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="12">R</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="08">S</span></div>
+                <div class="case"><span class="lettre" data-used="false" data-info="13">T</span></div>
+                <div class="case green"><span class="lettre" data-used="false" data-info="A5">U</span></div>
+            </div>
+            <hr class="full-width-line">
+            <div id="grilleSol">
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="A1">A</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="00">B</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="01">C</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="02">D</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="A2">E</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="03">F</span></div>
+                <div class="blank"></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="06">G</span></div>
+                <div class="blank"></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="14">H</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="04">I</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="09">J</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="A3">K</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="10">L</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="11">M</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="05">N</span></div>
+                <div class="blank"></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="07">O</span></div>
+                <div class="blank"></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="15">P</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="A4">Q</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="12">R</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="08">S</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="13">T</span></div>
+                <div class="caseSol"><span class="lettre" data-used="false" data-info="A5">U</span></div>
+            </div>
         </div>
-        <hr class="full-width-line">
-        <div id="grilleSol">
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="A1">A</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="00">B</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="01">C</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="02">D</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="A2">E</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="03">F</span></div>
-            <div class="blank"></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="06">G</span></div>
-            <div class="blank"></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="14">H</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="04">I</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="09">J</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="A3">K</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="10">L</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="11">M</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="05">N</span></div>
-            <div class="blank"></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="07">O</span></div>
-            <div class="blank"></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="15">P</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="A4">Q</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="12">R</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="08">S</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="13">T</span></div>
-            <div class="caseSol"><span class="lettre" data-used="false" data-info="A5">U</span></div>
+        <div class="defs">
+            <div class="def" id="def4"><span class="mot">AAAA</span> : <span class="definition">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel voluptatum ipsum eaque adipisci iusto, aliquid similique placeat ab laborum? Iure, doloribus cupiditate rerum minima dolorem nesciunt debitis recusandae vel provident.</span></div>
+            <div class="def" id="def5"><span class="mot">AAAA</span> : <span class="definition">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel voluptatum ipsum eaque adipisci iusto, aliquid similique placeat ab laborum? Iure, doloribus cupiditate rerum minima dolorem nesciunt debitis recusandae vel provident.</span></div>
+            <div class="def" id="def6"><span class="mot">AAAA</span> : <span class="definition">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel voluptatum ipsum eaque adipisci iusto, aliquid similique placeat ab laborum? Iure, doloribus cupiditate rerum minima dolorem nesciunt debitis recusandae vel provident.</span></div>
         </div>
     </div>
-    <script defer src="../public/javascripts/main.js"></script>
+    <script defer type ="module" src="../public/javascripts/main.js"></script>
 </body>
 </html>

@@ -1,13 +1,16 @@
+import { Mistral } from 'https://cdn.jsdelivr.net/npm/@mistralai/mistralai/+esm';
 // Affiche une alerte quand la page est chargée
 /*window.onload = function() {
     alert(Bienvenue sur ropartz.net !);
 };*/
 let listeLettres = [];
 let listeSolution = [];
-let listeMotsSolution = [];
+let listeMotsSolution = [["",0],["",0],["",0],["",0],["",0],["",0]];
 let greencpt = 5;
 //Chaque liste représente un mot (parfois sans les bords)
 let listeIndice = [[0,1,2],[3,4,5],[1,6,7,8],[4,9,10,11],[12,8,13],[14,11,15]]
+const apiKey = "yIN4ilBGbmQjNRFQOHhE1A2btMkCCSHL";
+const agentId = "ag:3fbc165d:20250321:dictionnaire:1aacd404";
 
 function QuellesLettres(indice){
     let lettreTeste = listeLettres[indice];
@@ -44,6 +47,37 @@ function QuellesLettres(indice){
     }
 }
 
+function AfficheDef(mot,numeroMot){
+    console.log("Appel de AfficheDef avec :", mot, numeroMot); // Vérifier ici
+    const client = new Mistral({
+      apiKey: apiKey, // Remplacez par votre clé API
+    });
+    
+    async function GenereMotMistral(mot){
+        const response = await client.agents.complete({
+        agentId: agentId,
+        messages: [
+            {
+            role: 'user',
+            content: 'Courte définition de ' + mot,
+            },
+        ],
+        });
+        return response.choices[0].message.content
+    }
+
+    GenereMotMistral(mot.toLowerCase()).then(definition => {
+        const element = document.getElementById("def" + numeroMot);
+        if (!element) {
+            console.error("L'élément défini avec ID 'def" + numeroMot + "' n'existe pas !");
+            return;
+        }
+        document.getElementById("def" + numeroMot).style.display = "block";
+        document.getElementById("def" + numeroMot).querySelector('.definition').textContent = definition;
+        document.getElementById("def" + numeroMot).querySelector('.mot').textContent = mot;
+    });
+}
+
 function verify(listeLettres, listeSolution){
     const cases = document.querySelectorAll(".case");
 
@@ -78,6 +112,53 @@ function verify(listeLettres, listeSolution){
         }
     });
 
+    if(cases[1].classList.contains('green') && cases[2].classList.contains('green') && cases[3].classList.contains('green')){
+        if(listeMotsSolution[0][1]==0){
+            AfficheDef(listeMotsSolution[0][0],1);
+            listeMotsSolution[0][1]=1;
+        }
+        console.log("mot1",'1');
+    }
+
+    if(cases[5].classList.contains('green') && cases[8].classList.contains('green') && cases[13].classList.contains('green')){
+        if(listeMotsSolution[1][1]==0){
+            AfficheDef(listeMotsSolution[1][0],2);
+            listeMotsSolution[1][1]=1;
+        }
+        console.log("mot2",'2');
+    }
+
+    if(cases[2].classList.contains('green') && cases[6].classList.contains('green') && cases[14].classList.contains('green') && cases[18].classList.contains('green')){
+        if(listeMotsSolution[2][1]==0){
+            AfficheDef(listeMotsSolution[2][0],3);
+            listeMotsSolution[2][1]=1;
+        }
+        console.log("mot3",'3');
+    }
+
+    if(cases[8].classList.contains('green') && cases[9].classList.contains('green') && cases[11].classList.contains('green') && cases[12].classList.contains('green')){
+        if(listeMotsSolution[3][1]==0){
+            AfficheDef(listeMotsSolution[3][0],4);
+            listeMotsSolution[3][1]=1;
+        }
+        console.log("mot4",'4');
+    }
+
+    if(cases[17].classList.contains('green') && cases[18].classList.contains('green') && cases[19].classList.contains('green')){
+        if(listeMotsSolution[4][1]==0){
+            AfficheDef(listeMotsSolution[4][0],5);
+            listeMotsSolution[4][1]=1;
+        }
+        console.log("mot5",'5');
+    }
+
+    if(cases[7].classList.contains('green') && cases[12].classList.contains('green') && cases[15].classList.contains('green')){
+        if(listeMotsSolution[5][1]==0){
+            AfficheDef(listeMotsSolution[5][0],6);
+            listeMotsSolution[5][1]=1;
+        }
+        console.log("mot6",'6');
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -89,7 +170,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const grilleSol = document.getElementById("grilleSol");
     const carteFinie = document.querySelector(".carteFinie");
     const carteBVN = document.querySelector(".carteBVN");
+    let mot = "bugle"
+    let def = "Instrument de musique à vent, de la famille des cuivres, avec une embouchure en forme de trompette."
 
+
+
+
+
+
+    
     setTimeout(afficherCarteBVN, 500); 
     window.addEventListener("load", afficherCarteBVN);
 
@@ -110,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function StartDrag(e, c) {
         e.preventDefault(); // Bloque le comportement natif (ex: scroll)
-        if (!c.classList.contains('green')){
+        if (!c.classList.contains('green') && foisfermees<2){
             draggedElement = c;
         
             
@@ -173,7 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
     
             let target = document.elementFromPoint(x, y);
-            console.log(target.classList);
             if (target.classList.contains("lettre")) {
                 target = target.parentNode;
             }
@@ -181,12 +269,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 let lettreA = target.querySelector('.lettre').textContent;
                 target.querySelector('.lettre').textContent = draggedElement.querySelector('.lettre').textContent;
                 draggedElement.querySelector('.lettre').textContent = lettreA;
-    
+                
                 listeLettres[parseInt(draggedElement.querySelector('.lettre').getAttribute('data-info'))] = lettreA;
                 listeLettres[parseInt(target.querySelector('.lettre').getAttribute('data-info'))] = target.querySelector('.lettre').textContent;
-    
+                
                 verify(listeLettres, listeSolution);
-    
+                
                 let scoreElement = document.getElementById('Score');
                 scoreElement.textContent = parseInt(scoreElement.textContent) - 1;
                 if (scoreElement.textContent <= 0) {
@@ -219,104 +307,16 @@ document.addEventListener("DOMContentLoaded", () => {
         // Réactiver le scroll après le drag
         document.body.style.overflow = "";
     }
-
-    /*cases.forEach((c) => {
-        if(c.classList.contains("green")){
-            c.setAttribute("draggable", false);
-        }
-        else{
-            c.setAttribute("draggable", true);
-        }
-
-        c.addEventListener("mousedown", (event) => StartDrag(event,c));
-
-    });
-
-    function StartDrag(e, c) {
-        e.preventDefault(); // Évite tout comportement natif du navigateur
-        draggedElement = c;
-
-        // Créer un clone
-        clone = draggedElement.cloneNode(true);
-        clone.classList.add("dragging-clone");
-        document.body.appendChild(clone);
-
-        draggedElement.classList.add("empty");
-        draggedElement.querySelector('.lettre').classList.add('emptyLetter');
-
-        // Position initiale du clone
-        moveClone(e);
-
-        // Ajouter les écouteurs
-        document.addEventListener("mousemove", moveClone);
-        document.addEventListener("mouseup", dropClone);
-    }
-
-    function moveClone(e) {
-        if (clone) {
-            clone.style.position = "fixed";
-            //clone.style.pointerEvents = "none"; // Évite qu'il interfère avec les événements
-            clone.style.left = `${e.pageX/* - clone.offsetWidth / 2}px`;
-            clone.style.top = `${e.pageY /*- clone.offsetHeight / 2}px`;
-        }
-    }
-
-    function dropClone(e) {
-        if (clone) {
-            let target = document.elementFromPoint(e.clientX, e.clientY);
-            
-            if (target && (target.classList.contains("case") || target.classList.contains("lettre")) && target !== draggedElement && !target.classList.contains("green") && !target.classList.contains("blank")) {
-                // Échanger les contenus
-                if (target.classList.contains("lettre")){
-                    target = target.parentNode;
-                }
-                
-                //Refaire apparaître le contenu de la case
-                
-                let lettreA = target.querySelector('.lettre').textContent;
-                target.querySelector('.lettre').textContent = draggedElement.querySelector('.lettre').textContent;
-                draggedElement.querySelector('.lettre').textContent = lettreA;
-                
-                //Echange des contenus dans la liste correspondante
-                listeLettres[parseInt(draggedElement.querySelector('.lettre').getAttribute('data-info'))] = lettreA;
-                listeLettres[parseInt(target.querySelector('.lettre').getAttribute('data-info'))] = target.querySelector('.lettre').textContent;
-                
-                //On revérifie le plateau
-                verify(listeLettres,listeSolution);
-                
-                let scoreElement = document.getElementById('Score');
-                scoreElement.textContent = parseInt(scoreElement.textContent) - 1;
-                if (scoreElement.textContent <= 0){
-                    afficherCarteFinie();
-                    grilleSol.style.display = "grid";
-                    document.querySelector(".full-width-line").style.display = "block";
-                }
-                
-                if (greencpt===21){
-                    afficherCarteFinie();
-                    grilleSol.style.display = "grid";
-                    document.querySelector(".full-width-line").style.display = "block";
-                }
-            }
-            
-            console.log("true");
-            draggedElement.querySelector('.lettre').classList.remove('emptyLetter');
-            draggedElement.classList.remove('empty');
-            // Supprimer le clone
-            clone.remove();
-            clone = null;
-        }
-        
-        //draggedElement = null;
-        
-        // Supprimer les écouteurs
-        document.removeEventListener("mousemove", moveClone);
-        document.removeEventListener("mouseup", dropClone);
-    }*/
-
     function afficherCarteFinie() {
         overlay.style.display = "block";
         carteFinie.style.display = "block";
+        let i;
+        for(i=0;i<6;i++){
+            if(listeMotsSolution[i][1]==0){
+                AfficheDef(listeMotsSolution[i][0],i+1);
+                listeMotsSolution[i][1]=1;
+            }
+        }
     }
 
     function masquerCarteFinie() {
@@ -360,8 +360,8 @@ function CreerSolution(){
         .then(data => {
             while(!reussite){
                 listeMots = data.split(" ");
-                //Nb de mots : 8062
-                mot1 = listeMots[Math.floor(Math.random() * 8062)];
+                //Nb de mots : 8061
+                mot1 = listeMots[Math.floor(Math.random() * 8061)];
 
                 //On chope le 2e mot
                 newListe1 = listeMots.filter(word => word.startsWith(mot1[0]));
@@ -438,7 +438,12 @@ function CreerSolution(){
 
 CreerSolution().then(motsSolution => {
     let shuffled;
-    listeMotsSolution = motsSolution.slice();
+    listeMotsSolution[0][0] = motsSolution[0];
+    listeMotsSolution[1][0] = motsSolution[1];
+    listeMotsSolution[2][0] = motsSolution[2];
+    listeMotsSolution[3][0] = motsSolution[3];
+    listeMotsSolution[4][0] = motsSolution[4];
+    listeMotsSolution[5][0] = motsSolution[5];
     listeLettres = [motsSolution[0][1],motsSolution[0][2],motsSolution[0][3],motsSolution[1][1],motsSolution[1][2],motsSolution[1][3],motsSolution[2][1],motsSolution[2][3],motsSolution[2][4],motsSolution[3][1],motsSolution[3][3],motsSolution[3][4],motsSolution[4][1],motsSolution[4][3],motsSolution[5][1],motsSolution[5][3]];
     listeSolution = listeLettres.slice();
     for (let i = listeLettres.length - 1; i > 0; i--) {
@@ -472,4 +477,3 @@ CreerSolution().then(motsSolution => {
 }).catch(error => {
     console.log("Erreur lors de la création de la solution :", error);
 });
-

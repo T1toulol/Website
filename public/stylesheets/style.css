@@ -56,12 +56,40 @@ h1 {
     font-size: 20px;
 }
 
-.body {
+.body{
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    grid-template-rows: 1fr 1fr;
+}
+
+.game {
+    grid-row : span 2;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     margin-top: 50px;
+}
+
+.defs{
+    margin-top: 90px;
+    padding-left: 10px;
+    padding-right: 5px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction : column;
+}
+
+.def{
+    font-size: 20px;
+}
+
+#def1, #def2, #def3, #def4, #def5, #def6{
+    display: none;
+}
+
+.mot{
+    color : green;
 }
 
 #boiteScore{
@@ -107,7 +135,7 @@ h1 {
     display : none;
     width: 100%;
     border: 3px solid black; /* Choisis la couleur et l'épaisseur de la ligne */
-    margin: 0; /* Enlève les marges par défaut */
+    margin: 10px; /* Enlève les marges par défaut */
 }
 
 .green{
@@ -218,6 +246,22 @@ body.dragging {
     border-radius: 5px;
 }
 
+@media only screen and (max-width: 1300px) {
+    .body{
+        display: flex;
+        flex-direction: column;
+    }
+
+    #defs1{
+        order: 2;
+    }
+    .game{
+        margin-bottom: 20px;
+    }
+    #def1, #def2, #def3, #def4, #def5, #def6, .defs{
+        margin-top: 5px;
+    }
+}
 
 @media only screen and (max-width: 500px) {
     #MainImage{
