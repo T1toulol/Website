@@ -335,16 +335,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("click", (event) => {
+        if(event.target.classList.contains("Regles")){
+            afficherCarteBVN();
+        }
+        if(event.target.classList.contains("Parametres")){
+            AfficheNavBar();
+        }
         if (event.target.classList.contains("fermer")) {
-            foisfermees++;
             console.log("lol");
             masquerCarteBVN();
             masquerCarteFinie();
-            if(foisfermees >= 2){
-                cases.forEach( c => {
-                    c.setAttribute("draggable", false);
-                });
-            }
         }
     });
 });
