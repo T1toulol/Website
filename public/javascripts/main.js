@@ -7,10 +7,16 @@ let listeLettres = [];
 let listeSolution = [];
 let listeMotsSolution = [["",0],["",0],["",0],["",0],["",0],["",0]];
 let greencpt = 5;
+let apiKey,agentId;
 //Chaque liste représente un mot (parfois sans les bords)
 let listeIndice = [[0,1,2],[3,4,5],[1,6,7,8],[4,9,10,11],[12,8,13],[14,11,15]]
-const apiKey = "yIN4ilBGbmQjNRFQOHhE1A2btMkCCSHL";
-const agentId = "ag:3fbc165d:20250321:dictionnaire:1aacd404";
+fetch('../assets/keys.txt') // Sous Windows
+        .then(response => response.text())
+        .then(data => {
+            let Keys = data.split("\n");
+            apiKey=Keys[0];
+            agentId=Keys[1];
+        });
 
 function QuellesLettres(indice){
     let lettreTeste = listeLettres[indice];
@@ -280,13 +286,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (scoreElement.textContent <= 0) {
                     afficherCarteFinie();
                     grilleSol.style.display = "grid";
-                    document.querySelector(".full-width-line").style.display = "block";
+                    document.querySelectorAll(".full-width-line")[1].style.display = "block";
+                    document.querySelectorAll(".full-width-line")[1].style.margin = "10px";
+                    document.querySelector(".body").style.setProperty("grid-template-rows", "1fr 1fr");
+                    document.querySelector(".game").style.setProperty("grid-row", "span 2");
                 }
     
                 if (greencpt === 21) {
                     afficherCarteFinie();
                     grilleSol.style.display = "grid";
-                    document.querySelector(".full-width-line").style.display = "block";
+                    document.querySelectorAll(".full-width-line")[1].style.display = "block";
+                    document.querySelectorAll(".full-width-line")[1].style.margin = "10px";
+                    document.querySelector(".body").style.setProperty("grid-template-rows", "1fr 1fr");
+                    document.querySelector(".game").style.setProperty("grid-row", "span 2");
                 }
             }
     

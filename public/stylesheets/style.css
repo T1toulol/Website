@@ -79,11 +79,9 @@ a{
 .body{
     display: grid;
     grid-template-columns: 30% 40% 30%;
-    grid-template-rows: 1fr 1fr;
 }
 
 .game {
-    grid-row : span 2;
     display: flex;
     align-items: center;
     justify-content: center;
